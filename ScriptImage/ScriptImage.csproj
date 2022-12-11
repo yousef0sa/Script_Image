@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>80088a74-5a78-48fe-9605-29d1c20c25a6</UserSecretsId>
+    <Title>Script Image</Title>
+    <Product>Script Image</Product>
+    <Company>yousef0sa</Company>
+    <Description>library that helps create scripts using images</Description>
+  </PropertyGroup>
+
+</Project>
