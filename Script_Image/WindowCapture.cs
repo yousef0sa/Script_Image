@@ -102,8 +102,8 @@ namespace ScriptImage
             {
                 DeleteObject(hBitmap);
                 ReleaseDC(hWnd, hWndDc);
-                ReleaseDC(IntPtr.Zero, hMemDc);
-                //DeleteDC(hMemDc);
+                //ReleaseDC(IntPtr.Zero, hMemDc);
+                DeleteDC(hMemDc);
 
                 return bitmap.ToMat();
             }

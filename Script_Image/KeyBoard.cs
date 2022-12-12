@@ -23,7 +23,7 @@ namespace ScriptImage
         public static void Press(IntPtr hWnd, Keys keys, int delayTime = 1)
         {
             PostMessage(hWnd, WM_KEYDOWN, (IntPtr)(keys), IntPtr.Zero);
-            Thread.Sleep(delayTime + 000);
+            Thread.Sleep(delayTime * 1000);
             PostMessage(hWnd, WM_KEYUP, (IntPtr)(keys), IntPtr.Zero);
         }
 
