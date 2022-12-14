@@ -5,9 +5,9 @@ namespace ScriptImage
 {
     public class FindWindow
     {
-        //handle by window name
+        //handle by window Title
         //return window handle if not find return Zero
-        public static IntPtr ByName(String WindowName)
+        public static IntPtr ByTitle(String WindowName)
         {
             foreach (Process pList in Process.GetProcesses())
             {
@@ -21,11 +21,11 @@ namespace ScriptImage
 
         //handle by window id Process
         //return window handle if not find return Zero
-        public static IntPtr ById(int windowId)
+        public static IntPtr ProcessId(int ProcessId)
         {
             foreach (Process pList in Process.GetProcesses())
             {
-                if (pList.Id == (windowId))
+                if (pList.Id == (ProcessId))
                 {
                     return pList.MainWindowHandle;
                 }
@@ -33,5 +33,18 @@ namespace ScriptImage
             return IntPtr.Zero;
         }
 
+        //handle by window Process Name
+        //return window handle if not find return Zero
+        public static IntPtr ProcessName(String ProcessName)
+        {
+            foreach (Process pList in Process.GetProcesses())
+            {
+                if (pList.ProcessName == (ProcessName))
+                {
+                    return pList.MainWindowHandle;
+                }
+            }
+            return IntPtr.Zero;
+        }
     }
 }
