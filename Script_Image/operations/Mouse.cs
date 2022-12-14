@@ -4,7 +4,7 @@ namespace ScriptImage
 {
     public class Mouse : DllHolder
     {
-        public enum WMessages : uint
+        private enum WMessages : uint
         {
             WM_RBUTTONDOWN = 0x204, //Right mouse-button down
             WM_RBUTTONUP = 0x205,   //Right mouse-button up

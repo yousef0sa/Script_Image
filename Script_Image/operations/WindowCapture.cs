@@ -5,7 +5,7 @@ using System.Drawing;
 namespace ScriptImage
 
 {
-    public class WindowCapture : DllHolder
+    public class WindowCapture : DllHolder 
     {
         //From https://stackoverflow.com/a/46174804/20574919
         //Capture specific Window by using handle
@@ -62,7 +62,7 @@ namespace ScriptImage
 
         }
 
-
+        //function to Bring Window To front
         public static bool BringWindowToTop(IntPtr handle)
         {
             if (handle != IntPtr.Zero)

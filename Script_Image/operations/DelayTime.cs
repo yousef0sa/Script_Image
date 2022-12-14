@@ -4,10 +4,10 @@ namespace ScriptImage
 {
     public class DelayTime
     {
-        public static void Delay(double Time)
+        //Delay Time in milliseconds
+        public static void Delay(double seconds)
         {
-            Time *= 1000;
-            Thread.Sleep(((int)Time));
+            Thread.Sleep((int)(seconds * 1000));
         }
     }
 }
