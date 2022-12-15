@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenCvSharp;
+using System;
 
 namespace ScriptImage
 {
@@ -14,19 +15,19 @@ namespace ScriptImage
         }
 
         //mouse Left Click
-        public static void Right_Click(IntPtr hWnd, (int x,int y) Location,  double delayTime = 1)
+        public static void Right_Click(IntPtr hWnd, Point Location,  double delayTime = 1)
         {
-            PostMessage(hWnd, (uint)WMessages.WM_RBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.x, Location.y));
+            PostMessage(hWnd, (uint)WMessages.WM_RBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.X, Location.Y));
             DelayTime.Delay(delayTime);
-            PostMessage(hWnd, (uint)WMessages.WM_RBUTTONUP, IntPtr.Zero, MakeLParam(Location.x, Location.y));
+            PostMessage(hWnd, (uint)WMessages.WM_RBUTTONUP, IntPtr.Zero, MakeLParam(Location.X, Location.Y));
         }
 
         //mouse Left Click
-        public static void Left_Click(IntPtr hWnd, (int x, int y) Location, double delayTime = 1)
+        public static void Left_Click(IntPtr hWnd, Point Location, double delayTime = 1)
         {
-            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.x, Location.y));
+            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.X, Location.Y));
             DelayTime.Delay(delayTime);
-            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONUP, IntPtr.Zero, MakeLParam(Location.x, Location.y));
+            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONUP, IntPtr.Zero, MakeLParam(Location.X, Location.Y));
         }
 
         //return LParam
@@ -35,23 +36,55 @@ namespace ScriptImage
             return (int)((HiWord << 16) | (LoWord & 0xFFFF));
         }
 
-        //move mouse to location
-        public static void MoveMouse(IntPtr hWnd, (int x, int y) Location)
-        {
-            PostMessage(hWnd, (uint)WMessages.WM_MOUSEMOVE, IntPtr.Zero, MakeLParam(Location.x, Location.y));
-        }
-
         //function to return mouse position 
-        public static (int x, int y) GetCursorPosition(IntPtr hWnd = default)
+        public static Point GetCursorPosition(IntPtr hWnd = default)
         {
-            GetCursorPos(out OpenCvSharp.Point lpPoint);
+            GetCursorPos(out Point lpPoint);
             if (hWnd != IntPtr.Zero)
             {
                 ScreenToClient(hWnd, ref lpPoint);
-                return (lpPoint.X, lpPoint.Y);
+                return lpPoint;
             }
             else
-               return (lpPoint.X, lpPoint.Y); 
+               return lpPoint; 
          }
+
+        //move mouse
+        public static void MoveMouse(IntPtr hWnd, (int x, int y) Location, int speed = 1)
+        {
+            var cp = GetCursorPosition(hWnd);
+            var (x1, y1) = Location;
+            var (x2, y2) = (x1 - cp.X, y1 - cp.Y);
+            var (x3, y3) = (x2 / speed, y2 / speed);
+            for (int i = 0; i < speed; i++)
+            {
+                PostMessage(hWnd, (uint)WMessages.WM_MOUSEMOVE, IntPtr.Zero, MakeLParam(cp.X + x3, cp.Y + y3));
+            }
+        }
+
+        //drag and drop.
+        public static void DragAndDrop(IntPtr hWnd, (int x, int y) Location, (int x, int y) Location2, int speed = 1)
+        {
+            var cp = GetCursorPosition(hWnd);
+            var (x1, y1) = Location;
+            var (x2, y2) = (x1 - cp.X, y1 - cp.Y);
+            var (x3, y3) = (x2 / speed, y2 / speed);
+            for (int i = 0; i < speed; i++)
+            {
+                PostMessage(hWnd, (uint)WMessages.WM_MOUSEMOVE, IntPtr.Zero, MakeLParam(cp.X + x3, cp.Y + y3));
+            }
+            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.x, Location.y));
+            DelayTime.Delay(0.5);
+            var cp2 = GetCursorPosition(hWnd);
+            var (x5, y5) = Location2;
+            var (x6, y6) = (x5 - cp2.X, y5 - cp2.Y);
+            var (x7, y7) = (x6 / speed, y6 / speed);
+            for (int i = 0; i < speed; i++)
+            {
+                PostMessage(hWnd, (uint)WMessages.WM_MOUSEMOVE, IntPtr.Zero, MakeLParam(cp2.X + x7, cp2.Y + y7));
+            }
+            PostMessage(hWnd, (uint)WMessages.WM_LBUTTONUP, IntPtr.Zero, MakeLParam(Location2.x, Location2.y));
+        }
+
     }
 }
