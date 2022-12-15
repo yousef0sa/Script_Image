@@ -2,11 +2,27 @@
 using ScriptImage;
 using System;
 using System.Runtime.InteropServices;
-
+using System.Text;
 
 public class DllHolder
 {
+    #region Dll FindWindow
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private protected static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private protected static extern int GetWindowTextLength(IntPtr hWnd);
+
+    [DllImport("user32")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private protected static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i);
+    private protected delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter);
+
+    #endregion
+
     #region Dll WindowCapture 
+
+
     [DllImport("user32.dll")]
     private protected static extern IntPtr GetClientRect(IntPtr hWnd, ref Rect rect);
 
