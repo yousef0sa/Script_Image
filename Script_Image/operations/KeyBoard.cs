@@ -6,6 +6,7 @@ namespace ScriptImage
     {
         private const uint WM_KEYDOWN = 0x100;
         private const uint WM_KEYUP = 0x0101;
+        private const int WM_SETTEXT = 0X000C;
 
         //Key event with window handle
         public static void Press(IntPtr hWnd, Keys keys, double delayTime = 0.5)
@@ -25,6 +26,12 @@ namespace ScriptImage
         public static void PressUp(IntPtr hWnd, Keys keys)
         {
             PostMessage(hWnd, WM_KEYUP, (IntPtr)(keys), 0);
+        }
+
+        //send text to handle
+        public static void SendText(IntPtr hWnd, string text)
+        {
+                SendMessage(hWnd, WM_SETTEXT, 0, text);
         }
     }
 }
