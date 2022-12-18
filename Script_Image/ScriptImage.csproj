@@ -1,13 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <Title>Script Image</Title>
+	  <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
 	  <Product>Script Image</Product>
 	  <Company>yousef0sa</Company>
-	  <Description>library that helps create scripts using images</Description>
+	  <Description>a library that helps to create scripts using images.</Description>
 	  <PackageProjectUrl>https://github.com/yousef0sa/Script_Image</PackageProjectUrl>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <PackageId>Script.Image</PackageId>
+	  <Title>ScriptImage</Title>
+	  <PackageTags>Script Image</PackageTags>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	  <PackAsTool>False</PackAsTool>
   </PropertyGroup>
+	<!--Conditionally obtain references for the .NET 5.0 target-->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+
+	</ItemGroup>
+	<!--Conditionally obtain references for the .NET 6.0 target-->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="OpenCvSharp4" Version="4.6.0.20220608" />
