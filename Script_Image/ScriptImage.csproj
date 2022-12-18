@@ -1,9 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <TargetFramework>net5.0</TargetFramework>
-	  <TargetFramework>net6.0</TargetFramework>
+	  <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
 	  <Product>Script Image</Product>
 	  <Company>yousef0sa</Company>
 	  <Description>a library that helps to create scripts using images.</Description>
@@ -16,6 +14,14 @@
 	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	  <PackAsTool>False</PackAsTool>
   </PropertyGroup>
+	<!--Conditionally obtain references for the .NET 5.0 target-->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+
+	</ItemGroup>
+	<!--Conditionally obtain references for the .NET 6.0 target-->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="OpenCvSharp4" Version="4.6.0.20220608" />
