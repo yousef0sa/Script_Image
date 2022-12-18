@@ -57,11 +57,17 @@ public class DllHolder
     private protected static extern bool SetForegroundWindow(IntPtr hWnd);
     #endregion
 
-    #region Dll KeyBorder And Mouse
+    #region Dll KeyBoard And Mouse
     [DllImport("user32.dll")]
     private protected static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, int lParam);
     [DllImport("user32.dll")]
     public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+
+    [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+    public static extern bool SendMessage(IntPtr hWnd, uint Msg, int wParam, StringBuilder lParam);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wparam, int lparam);
 
     [DllImport("user32.dll")]
     private protected static extern bool GetCursorPos(out OpenCvSharp.Point lpPoint);
