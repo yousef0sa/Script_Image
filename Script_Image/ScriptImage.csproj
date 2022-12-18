@@ -2,11 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-	  <Title>Script Image</Title>
+	  <TargetFramework>net5.0</TargetFramework>
+	  <TargetFramework>net6.0</TargetFramework>
 	  <Product>Script Image</Product>
 	  <Company>yousef0sa</Company>
-	  <Description>library that helps create scripts using images</Description>
+	  <Description>a library that helps to create scripts using images.</Description>
 	  <PackageProjectUrl>https://github.com/yousef0sa/Script_Image</PackageProjectUrl>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <PackageId>Script.Image</PackageId>
+	  <Title>ScriptImage</Title>
+	  <PackageTags>Script Image</PackageTags>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	  <PackAsTool>False</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
