@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using OpenCvSharp;
+﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 
@@ -16,9 +15,9 @@ namespace ScriptImage
         private List<(int X, int Y)> _centerListPoint = new List<(int X, int Y)>();
         private List<Rect> _ListRect = new List<Rect>();
 
-        private double maxVal, minVal, _threshold;
+        private double _maxVal, _minVal, _threshold;
         private (int X, int Y) _CenterPo;
-        private Point minLoc, maxLoc;
+        private Point _minLoc, _maxLoc;
 
         #endregion
 
@@ -44,19 +43,19 @@ namespace ScriptImage
         }
         public Point GetMaxLoc
         {
-            get { return maxLoc; }
+            get { return _maxLoc; }
         }
         public Point GetMinLoc
         {
-            get { return minLoc; }
+            get { return _minLoc; }
         }
         public double GetMaxVal
         {
-            get { return maxVal; }
+            get { return _maxVal; }
         }
         public double GetMinVal
         {
-            get { return minVal; }
+            get { return _minVal; }
         }
         public Rect GetRect
         {
@@ -186,13 +185,13 @@ namespace ScriptImage
             this._subImage = subImage;
             this._result = result;
             this._threshold = threshold;
-            Cv2.MinMaxLoc(_result, out minVal, out maxVal, out minLoc, out maxLoc);
+            Cv2.MinMaxLoc(_result, out _minVal, out _maxVal, out _minLoc, out _maxLoc);
         }
 
         //return Center Point of image
         private (int X, int Y) getCenterPoint()
         {
-            return (_CenterPo.X = maxLoc.X + _subImage.Width / 2, _CenterPo.Y = maxLoc.Y + _subImage.Height / 2);
+            return (_CenterPo.X = _maxLoc.X + _subImage.Width / 2, _CenterPo.Y = _maxLoc.Y + _subImage.Height / 2);
         }
 
         //return list Center Point
@@ -228,7 +227,7 @@ namespace ScriptImage
         //return rectangle of single image
         private Rect getRect()
         {
-            return new Rect(new Point(maxLoc.X, maxLoc.Y), new Size(_subImage.Width, _subImage.Height));
+            return new Rect(new Point(_maxLoc.X, _maxLoc.Y), new Size(_subImage.Width, _subImage.Height));
         }
 
         //return list of rectangle
