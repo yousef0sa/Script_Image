@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using Microsoft.VisualBasic;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace ScriptImage
 
         private Mat _mainImage;
         private Mat _subImage;
-        private readonly Mat _result;
+        private Mat _result;
         private List<(int X, int Y)> _centerListPoint = new List<(int X, int Y)>();
         private List<Rect> _ListRect = new List<Rect>();
 
@@ -21,20 +22,13 @@ namespace ScriptImage
 
         #endregion
 
-        #region Constructor
-
-        public MyImage(Mat mainImage, Mat subImage, Mat result, double threshold)
-        {
-            this._mainImage = mainImage;
-            this._subImage = subImage;
-            this._result = result;
-            this._threshold = threshold;
-            Cv2.MinMaxLoc(_result, out minVal, out maxVal, out minLoc, out maxLoc);
-        }
-        #endregion
-
         #region Get_Set
 
+        public double GetThreshold
+        {
+            get { return _threshold; }
+            set { _threshold = value; }
+        }
         public (int X, int Y) GetCenterPoint
         {
             get { return getCenterPoint(); }
@@ -83,7 +77,7 @@ namespace ScriptImage
         #region Methods
 
         //Image matching
-        public static MyImage MatchTemplate(Mat mainImage, string subImage, double threshold = 0.50, int match_method = 5)
+        public void MatchTemplate(Mat mainImage, string subImage, double threshold = 0.50, int match_method = 5)
         {
 
             Mat subImg = new Mat(subImage);
@@ -94,8 +88,7 @@ namespace ScriptImage
                 Cv2.MatchTemplate(mref, sref, result, (TemplateMatchModes)match_method);
                 Cv2.Threshold(result, result, threshold, 1.0, ThresholdTypes.Tozero);
             }
-
-            return new MyImage(mainImage, subImg, result, threshold);
+            updateData(mainImage, subImg, result, threshold);
         }
 
         //Draw multi rectangle on image
@@ -185,6 +178,16 @@ namespace ScriptImage
         #endregion
 
         #region Local function
+
+        //Update variable data
+        private void updateData (Mat mainImage, Mat subImage, Mat result, double threshold)
+        {
+            this._mainImage = mainImage;
+            this._subImage = subImage;
+            this._result = result;
+            this._threshold = threshold;
+            Cv2.MinMaxLoc(_result, out minVal, out maxVal, out minLoc, out maxLoc);
+        }
 
         //return Center Point of image
         private (int X, int Y) getCenterPoint()
