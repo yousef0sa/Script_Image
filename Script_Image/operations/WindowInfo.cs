@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace ScriptImage
 {
-    public class Window : DllHolder
+    public class WindowInfo : DllHolder
     {
         #region FindWindow
         //handle by window Title
