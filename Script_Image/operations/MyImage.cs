@@ -174,6 +174,25 @@ namespace ScriptImage
             _subImage?.Dispose();
             _result?.Dispose();
         }
+
+        //MatchTemplate in range
+        public void MatchTemplateInRange(Mat mainImage, string subImage, double threshold = 0.50,
+            int x = 0, int y = 0, int width = 0, int height = 0, int match_method = 5)
+        {
+            Mat subImg = new Mat(subImage);
+            Mat result = new Mat();
+            using (Mat mref = mainImage.CvtColor(ColorConversionCodes.BGR2GRAY))
+            using (Mat sref = subImg.CvtColor(ColorConversionCodes.BGR2GRAY))
+            {
+                //Set range
+                using (var range = mref[new Rect(x, y, width, height)])
+                {
+                    Cv2.MatchTemplate(range, sref, result, (TemplateMatchModes)match_method);
+                    Cv2.Threshold(result, result, threshold, 1.0, ThresholdTypes.Tozero);
+                }
+            }
+            updateData(mainImage, subImg, result, threshold);
+        }
         #endregion
 
         #region Local function
