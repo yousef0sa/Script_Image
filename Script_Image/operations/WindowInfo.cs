@@ -16,7 +16,7 @@ namespace ScriptImage
         #region FindWindow
         //handle by window Title
         //return window handle if not find return Zero
-        public static IntPtr ByTitle(String WindowName)
+        public static IntPtr handleTitle(String WindowName)
         {
             foreach (Process pList in Process.GetProcesses())
             {
@@ -30,7 +30,7 @@ namespace ScriptImage
 
         //handle by window id Process
         //return window handle if not find return Zero
-        public static IntPtr ProcessId(int ProcessId)
+        public static IntPtr handleProcessId(int ProcessId)
         {
             foreach (Process pList in Process.GetProcesses())
             {
@@ -44,7 +44,7 @@ namespace ScriptImage
 
         //handle by window Process Name
         //return window handle if not find return Zero
-        public static IntPtr ProcessName(String ProcessName)
+        public static IntPtr handleProcessName(String ProcessName)
         {
             foreach (Process pList in Process.GetProcesses())
             {
@@ -57,7 +57,7 @@ namespace ScriptImage
         }
 
         //Get all window child by parent handle.
-        public static List<IntPtr> GetChildWindows(IntPtr parent)
+        public static List<IntPtr> GetChild(IntPtr parent)
         {
             List<IntPtr> result = new List<IntPtr>();
             GCHandle listHandle = GCHandle.Alloc(result);
@@ -163,7 +163,7 @@ namespace ScriptImage
         }
 
         //function to Bring Window To front
-        public static bool BringWindowToTop(IntPtr handle)
+        public bool BringWindowToTop(IntPtr handle)
         {
             if (handle != IntPtr.Zero)
             {
@@ -175,24 +175,24 @@ namespace ScriptImage
         #endregion
 
         #region FPS
-        private static DateTime _lastCheckTime = DateTime.Now;
-        private static long _frameCount = 0;
+        private DateTime _lastCheckTime = DateTime.Now;
+        private long _frameCount = 0;
 
 
-        private static DateTime LastCheckTime
+        private DateTime LastCheckTime
         {
             get { return _lastCheckTime; }
             set { _lastCheckTime = value; }
         }
 
         // called whenever a map is updated
-        private static void OnMapUpdated()
+        private void OnMapUpdated()
         {
             Interlocked.Increment(ref _frameCount);
         }
 
         // called every once in a while
-        public static double GetFps()
+        public double GetFps()
         {
             OnMapUpdated();
 
