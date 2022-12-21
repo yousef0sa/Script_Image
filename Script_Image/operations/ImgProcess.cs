@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ScriptImage
 {
-    public partial class MyImage
+    public partial class ImgProcess
     {
         #region Variables
 
