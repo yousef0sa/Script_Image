@@ -6,19 +6,6 @@ namespace ScriptImage
 {
     public partial class ImgProcess
     {
-        #region Variables
-
-        private Mat _mainImage;
-        private Mat _subImage;
-        private Mat _result;
-        private List<(int X, int Y)> _centerListPoint = new List<(int X, int Y)>();
-        private List<Rect> _ListRect = new List<Rect>();
-
-        private double _maxVal, _minVal, _threshold;
-        private (int X, int Y) _CenterPo;
-        private Point _minLoc, _maxLoc;
-
-        #endregion
 
         #region Methods
 
@@ -63,8 +50,8 @@ namespace ScriptImage
             return new ImgProcessRef(mainImage, subImg, result, threshold, Start);
         }
 
-        //Draw multi rectangle on image
-        public static void DrawMultiRec(Mat mainImage, Mat subImage, Mat result, double threshold)
+        //Draw multi rectangle on image [Need To Fix] => now it's [private]
+        private static void DrawMultiRec(Mat mainImage, Mat subImage, Mat result, double threshold)
         {
 
             while (true)
@@ -94,23 +81,19 @@ namespace ScriptImage
         }
 
 
-        //Draw rectangle on image
-        public static void DrawRec(Mat mainImage, Mat subImage, Mat result)
+        //Draw rectangle on image [Need To Fix] => now it's [private]
+        private static void DrawRec(Mat mainImage, Mat subImage, Mat result, double threshold)
         {
             double minval, maxval;
             Point minloc, maxloc;
             Cv2.MinMaxLoc(result, out minval, out maxval, out minloc, out maxloc);
-            Rect rec = new Rect(new Point(maxloc.X, maxloc.Y), new Size(subImage.Width, subImage.Height));
-            Cv2.Rectangle(mainImage, rec, Scalar.LimeGreen, 2);
-        }
 
-        //Dispose this for fix memory leak
-        public void Dispose()
-        {
-            _subImage?.Dispose();
-            _result?.Dispose();
+            if (maxval >= threshold)
+            {
+                Rect rec = new Rect(new Point(maxloc.X  , maxloc.Y ), new Size(subImage.Width, subImage.Height));
+                Cv2.Rectangle(mainImage, rec, Scalar.LimeGreen, 2);
+            }
         }
-
 
         #endregion
 
@@ -132,7 +115,6 @@ namespace ScriptImage
             //return the lowest two numbers and the height and width.
             return new Rect(Start.x, Start.y, width, height);
         }
-
         #endregion
     }
 }
