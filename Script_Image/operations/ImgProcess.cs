@@ -1,7 +1,6 @@
 ﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ScriptImage
 {
@@ -60,9 +59,8 @@ namespace ScriptImage
                     Cv2.MatchTemplate(range, sref, result, (TemplateMatchModes)match_method);
                     Cv2.Threshold(result, result, threshold, 1.0, ThresholdTypes.Tozero);
                 }
-
             }
-            return new ImgProcessRef(mainImage, subImg, result, threshold);
+            return new ImgProcessRef(mainImage, subImg, result, threshold, Start);
         }
 
         //Draw multi rectangle on image
@@ -123,16 +121,16 @@ namespace ScriptImage
         {
 
             //get the lowest two numbers and the highest two numbers.
-            var numbers = new[] { Start.x, Start.y, End.x, End.y };
-            var lowestTwo = numbers.OrderBy(n => n).Take(2);
-            var highestTwo = numbers.OrderByDescending(n => n).Take(2);
+            //var numbers = new[] { Start.x, Start.y, End.x, End.y };
+            //var lowestTwo = numbers.OrderBy(n => n).Take(2);
+            //var highestTwo = numbers.OrderByDescending(n => n).Take(2);
 
             //get height and width.
-            var width = highestTwo.ElementAt(0) - lowestTwo.ElementAt(0);
-            var height = highestTwo.ElementAt(1) - lowestTwo.ElementAt(1);
+            var width = End.x - Start.x;
+            var height = End.y - Start.y;
 
             //return the lowest two numbers and the height and width.
-            return new Rect(lowestTwo.ElementAt(0), lowestTwo.ElementAt(1), width, height);
+            return new Rect(Start.x, Start.y, width, height);
         }
 
         #endregion

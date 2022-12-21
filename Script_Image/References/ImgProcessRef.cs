@@ -21,7 +21,18 @@ namespace ScriptImage
         private List<(int X, int Y)> _centerListPoint = new List<(int X, int Y)>();
         private List<Rect> _ListRect = new List<Rect>();
         private (int X, int Y) _CenterPo;
+        private (int X, int Y) _Start;
         #endregion
+
+        public ImgProcessRef(Mat mainImage, Mat subImage, Mat result, double threshold, (int x, int y) Start)
+        {
+            this._mainImage = mainImage;
+            this._subImage = subImage;
+            this._result = result;
+            this._threshold = threshold;
+            this._Start = Start;
+            Cv2.MinMaxLoc(_result, out _minVal, out _maxVal, out _minLoc, out _maxLoc);
+        }
 
         public ImgProcessRef(Mat mainImage, Mat subImage, Mat result, double threshold)
         {
@@ -30,7 +41,6 @@ namespace ScriptImage
             this._result = result;
             this._threshold = threshold;
             Cv2.MinMaxLoc(_result, out _minVal, out _maxVal, out _minLoc, out _maxLoc);
-
         }
 
         #region Methods
@@ -55,7 +65,7 @@ namespace ScriptImage
                     if (maxval >= _threshold)
                     {
                         //Setup the rectangle to draw
-                        Rect r = new Rect(new Point(maxloc.X, maxloc.Y), new Size(_subImage.Width, _subImage.Height));
+                        Rect r = new Rect(new Point(maxloc.X + _Start.X, maxloc.Y + _Start.Y), new Size(_subImage.Width, _subImage.Height));
 
                         //Draw a rectangle of the matching area
                         Cv2.Rectangle(_mainImage, r, Scalar.LimeGreen, 2);
@@ -75,9 +85,12 @@ namespace ScriptImage
             double minval, maxval;
             Point minloc, maxloc;
             Cv2.MinMaxLoc(_result, out minval, out maxval, out minloc, out maxloc);
+            if (maxval >= _threshold)
+            {
+                Rect rec = new Rect(new Point(maxloc.X + _Start.X, maxloc.Y + _Start.Y), new Size(_subImage.Width, _subImage.Height));
+                Cv2.Rectangle(_mainImage, rec, Scalar.LimeGreen, 2);
+            }
 
-            Rect rec = new Rect(new Point(maxloc.X, maxloc.Y), new Size(_subImage.Width, _subImage.Height));
-            Cv2.Rectangle(_mainImage, rec, Scalar.LimeGreen, 2);
         }
         #endregion
 
