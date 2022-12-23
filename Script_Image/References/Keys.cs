@@ -1,6 +1,6 @@
 ﻿namespace ScriptImage
 {
-    public enum Keys
+    public enum Keys : uint
     {
         //
         // Summary:
@@ -9,7 +9,7 @@
         //
         // Summary:
         //     The bitmask to extract modifiers from a key value.
-        Modifiers = -65536,
+        //Modifiers = -65536,
         //
         // Summary:
         //     No key pressed.

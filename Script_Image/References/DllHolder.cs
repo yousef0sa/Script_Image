@@ -78,6 +78,10 @@ public class DllHolder
 
     [DllImport("user32.dll")]
     private protected static extern bool ScreenToClient(IntPtr hWnd, ref OpenCvSharp.Point lpPoint);
+
+    [DllImport("user32.dll")]
+    private protected static extern bool GetAsyncKeyState(Keys VirtualKeyPressed);
+
     #endregion
 
 }

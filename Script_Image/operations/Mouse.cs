@@ -15,7 +15,7 @@ namespace ScriptImage
         }
 
         //mouse Left Click
-        public static void Right_Click(IntPtr hWnd, (int X, int  Y) Location,  double delayTime = 0.5)
+        public static void Right_Click(IntPtr hWnd, (int X, int Y) Location, double delayTime = 0.5)
         {
             PostMessage(hWnd, (uint)WMessages.WM_RBUTTONDOWN, IntPtr.Zero, MakeLParam(Location.X, Location.Y));
             DelayTime.Delay(delayTime);
@@ -58,8 +58,8 @@ namespace ScriptImage
                 return (lpPoint.X, lpPoint.Y);
             }
             else
-               return (lpPoint.X, lpPoint.Y);
-         }
+                return (lpPoint.X, lpPoint.Y);
+        }
 
         //move mouse
         public static void MoveMouse(IntPtr hWnd, (int X, int Y) Location, int speed = 1)
@@ -96,6 +96,59 @@ namespace ScriptImage
                 PostMessage(hWnd, (uint)WMessages.WM_MOUSEMOVE, IntPtr.Zero, MakeLParam(cp2.X + x7, cp2.Y + y7));
             }
             PostMessage(hWnd, (uint)WMessages.WM_LBUTTONUP, IntPtr.Zero, MakeLParam(Location2.X, Location2.Y));
+        }
+
+        //return start position and end position by mouse of the window handle.
+        public static ((int x, int y) Start, (int x, int y) End) RangeMaker(IntPtr hWnd)
+        {
+            //Delay Time
+            DelayTime.Delay(0.5);
+
+            //Get window Rectangle
+            var rect = new Rect();
+            GetClientRect(hWnd, ref rect);
+
+
+            (int x, int y) Start = (0, 0);
+            (int x, int y) End = (0, 0);
+
+            //Start Position
+            while (true)
+            {
+                var cp = GetCursorPosition(hWnd);
+                //When the mouse is inside the handle window == True
+                if (cp.X <= rect.BottomRight.X && cp.Y <= rect.BottomRight.Y && cp.X >= 0 && cp.Y >= 0)
+                {
+                    if (GetAsyncKeyState(Keys.LButton) == true)
+                    {
+                        Start = cp;
+                        break;
+                    }
+                    if (GetAsyncKeyState(Keys.Escape) == true)
+                        return (Start, End); ;
+                }
+            }
+
+            //Delay Time
+            DelayTime.Delay(0.5);
+
+            //End Position
+            while (true)
+            {
+                var cp = GetCursorPosition(hWnd);
+                //When the mouse is inside the handle window == True
+                if (cp.X <= rect.BottomRight.X && cp.Y <= rect.BottomRight.Y && cp.X >= 0 && cp.Y >= 0)
+                {
+                    if (GetAsyncKeyState(Keys.LButton) == true)
+                    {
+                        End = cp;
+                        break;
+                    }
+                    if (GetAsyncKeyState(Keys.Escape) == true)
+                        return (Start, End); ;
+                }
+            }
+            return (Start, End);
         }
     }
 }
