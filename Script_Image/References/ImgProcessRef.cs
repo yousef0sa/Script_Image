@@ -55,13 +55,14 @@ namespace ScriptImage
         //Draw multi rectangle on image [Overloading]
         public void DrawMultiRec()
         {
+            using (var _result2 = _result.Clone())
             {
                 while (true)
                 {
                     double minval, maxval;
                     Point minloc, maxloc;
-                    Cv2.MinMaxLoc(_result, out minval, out maxval, out minloc, out maxloc);
 
+                    Cv2.MinMaxLoc(_result2, out minval, out maxval, out minloc, out maxloc);
                     if (maxval >= _threshold)
                     {
                         //Setup the rectangle to draw
@@ -71,7 +72,7 @@ namespace ScriptImage
                         Cv2.Rectangle(_mainImage, r, Scalar.LimeGreen, 2);
 
                         //Fill in the res Mat so you don't find the same area again in the MinMaxLoc
-                        Cv2.FloodFill(_result, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
+                        Cv2.FloodFill(_result2, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
                     }
                     else
                         break;
@@ -82,15 +83,18 @@ namespace ScriptImage
         //Draw rectangle on image [Overloading]
         public void DrawRec()
         {
-            double minval, maxval;
-            Point minloc, maxloc;
-            Cv2.MinMaxLoc(_result, out minval, out maxval, out minloc, out maxloc);
-            if (maxval >= _threshold)
+            using (var _result2 = _result.Clone())
             {
-                Rect rec = new Rect(new Point(maxloc.X + _Start.X, maxloc.Y + _Start.Y), new Size(_subImage.Width, _subImage.Height));
-                Cv2.Rectangle(_mainImage, rec, Scalar.LimeGreen, 2);
-            }
+                double minval, maxval;
+                Point minloc, maxloc;
+                Cv2.MinMaxLoc(_result2, out minval, out maxval, out minloc, out maxloc);
 
+                if (maxval >= _threshold)
+                {
+                    Rect rec = new Rect(new Point(maxloc.X + _Start.X, maxloc.Y + _Start.Y), new Size(_subImage.Width, _subImage.Height));
+                    Cv2.Rectangle(_mainImage, rec, Scalar.LimeGreen, 2);
+                }
+            }
         }
         #endregion
 
@@ -153,51 +157,52 @@ namespace ScriptImage
         //return list Center Point
         private List<(int X, int Y)> getCenterListPoint()
         {
-            while (true)
+            using (var _result2 = _result.Clone())
             {
-
-                double minval, maxval;
-                Point minloc, maxloc;
-                Cv2.MinMaxLoc(_result, out minval, out maxval, out minloc, out maxloc);
-
-                if (maxval >= _threshold)
+                while (true)
                 {
+                    double minval, maxval;
+                    Point minloc, maxloc;
+                    Cv2.MinMaxLoc(_result2, out minval, out maxval, out minloc, out maxloc);
 
-                    //Fill in the res Mat so you don't find the same area again in the MinMaxLoc
-                    Cv2.FloodFill(_result, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
-                    _centerListPoint.Add((maxloc.X + _subImage.Width / 2, maxloc.Y = maxloc.Y + _subImage.Height / 2));
-
+                    if (maxval >= _threshold)
+                    {
+                        //Fill in the res Mat so you don't find the same area again in the MinMaxLoc
+                        Cv2.FloodFill(_result2, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
+                        _centerListPoint.Add((maxloc.X + _subImage.Width / 2, maxloc.Y = maxloc.Y + _subImage.Height / 2));
+                    }
+                    else
+                        break;
                 }
-                else
-                    break;
+                return _centerListPoint;
             }
-            return _centerListPoint;
         }
 
         //return list of rectangle
         private List<Rect> getListRect()
         {
-            while (true)
+            using (var _result2 = _result.Clone())
             {
-
-                double minval, maxval;
-                Point minloc, maxloc;
-                Cv2.MinMaxLoc(_result, out minval, out maxval, out minloc, out maxloc);
-
-                if (maxval >= _threshold)
+                while (true)
                 {
-                    //Setup the rectangle to draw
-                    Rect r = new Rect(new Point(maxloc.X, maxloc.Y), new Size(_subImage.Width, _subImage.Height));
+                    double minval, maxval;
+                    Point minloc, maxloc;
+                    Cv2.MinMaxLoc(_result2, out minval, out maxval, out minloc, out maxloc);
 
-                    //Fill in the res Mat so you don't find the same area again in the MinMaxLoc
-                    Cv2.FloodFill(_result, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
-                    _ListRect.Add(r);
+                    if (maxval >= _threshold)
+                    {
+                        //Setup the rectangle to draw
+                        Rect r = new Rect(new Point(maxloc.X, maxloc.Y), new Size(_subImage.Width, _subImage.Height));
 
+                        //Fill in the res Mat so you don't find the same area again in the MinMaxLoc
+                        Cv2.FloodFill(_result2, maxloc, new Scalar(0), out Rect outRect, new Scalar(0.1), new Scalar(1.0));
+                        _ListRect.Add(r);
+                    }
+                    else
+                        break;
                 }
-                else
-                    break;
+                return _ListRect;
             }
-            return _ListRect;
         }
 
         //return rectangle of single image
@@ -219,6 +224,4 @@ namespace ScriptImage
         }
         #endregion
     }
-
-
 }
