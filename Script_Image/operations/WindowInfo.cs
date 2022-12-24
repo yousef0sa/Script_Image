@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using ScriptImage.References;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -163,7 +164,7 @@ namespace ScriptImage
         }
 
         //function to Bring Window To front
-        public bool BringWindowToTop(IntPtr handle)
+        public static bool BringWindowToTop(IntPtr handle)
         {
             if (handle != IntPtr.Zero)
             {
@@ -204,13 +205,32 @@ namespace ScriptImage
         }
         #endregion
 
+        #region Window Position
+
+        private const int SW_SHOWNORMAL = 1;
+        private const int SW_MAXIMIZE = 3;
+        private const int SW_MINIMIZE = 6;
+
+        //Set Window Position and check if the window is maximized or minimized and set to normal
+        public static void SetWindowPos(IntPtr hWnd, int x, int y, int Height, int Width, SetWindowPosFlags uFlags = SetWindowPosFlags.SWP_SHOWWINDOW, SpecialWindowHandles hWndInsertAfter = SpecialWindowHandles.HWND_NOTOPMOST)
+        {
+            if (hWnd != IntPtr.Zero)
+            {
+
+                if (IsIconic(hWnd))
+                {
+                    ShowWindow(hWnd, SW_SHOWNORMAL);
+                }
+                else if (IsZoomed(hWnd))
+                {
+                    ShowWindow(hWnd, SW_SHOWNORMAL);
+                }
+
+                SetWindowPos(hWnd, (IntPtr)hWndInsertAfter, x, y, Height, Width, (uint)uFlags);
+            }
+        }
+
+        #endregion
     }
 }
-
-
-
-
-
-
-
 
