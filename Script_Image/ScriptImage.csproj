@@ -13,6 +13,8 @@
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	  <PackAsTool>False</PackAsTool>
+	  <Version>1.0.1</Version>
+	  <Authors>Yousef</Authors>
   </PropertyGroup>
 	<!--Conditionally obtain references for the .NET 5.0 target-->
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
