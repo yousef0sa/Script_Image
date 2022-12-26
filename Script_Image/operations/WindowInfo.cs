@@ -226,7 +226,7 @@ namespace ScriptImage
                     ShowWindow(hWnd, SW_SHOWNORMAL);
                 }
 
-                SetWindowPos(hWnd, (IntPtr)hWndInsertAfter, x, y, Height, Width, (uint)uFlags);
+                SetWindowPos(hWnd, (IntPtr)hWndInsertAfter, x, y, Width, Height, (uint)uFlags);
             }
         }
 

@@ -6,15 +6,17 @@
 	  <Company>yousef0sa</Company>
 	  <Description>a library that helps to create scripts using images.</Description>
 	  <PackageProjectUrl>https://github.com/yousef0sa/Script_Image</PackageProjectUrl>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageId>Script.Image</PackageId>
 	  <Title>ScriptImage</Title>
 	  <PackageTags>Script Image</PackageTags>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	  <PackAsTool>False</PackAsTool>
-	  <Version>1.0.1</Version>
-	  <Authors>Yousef</Authors>
+	  <Authors>yousef</Authors>
+
+	  <!--This form is for testing the package and if you what to release, return it to its original form Like 1.0.1 -->
+	  <Version>1.0.1-$(Configuration)-$(Platform)-$([System.DateTime]::UtcNow.ToString(yyyyMMdd-HHmmss))</Version>
+
   </PropertyGroup>
 	<!--Conditionally obtain references for the .NET 5.0 target-->
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">

@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp;
 using System;
-using System.Collections.Generic;
 
 namespace ScriptImage
 {
@@ -10,13 +9,15 @@ namespace ScriptImage
         #region Methods
 
         //Image matching
-        public static ImgProcessRef MatchTemplate(Mat mainImage, string subImage, double threshold = 0.50, int match_method = 5)
+        public static ImgProcessRef MatchTemplate(Mat mainImage, string subImage, double threshold = 0.50, int match_method = 5,
+            ColorConversionCodes mainImgColor = ColorConversionCodes.BGR2GRAY,
+            ColorConversionCodes subImgColor = ColorConversionCodes.BGR2GRAY)
         {
 
             Mat subImg = new Mat(subImage);
             Mat result = new Mat();
-            using (Mat mref = mainImage.CvtColor(ColorConversionCodes.BGR2GRAY))
-            using (Mat sref = subImg.CvtColor(ColorConversionCodes.BGR2GRAY))
+            using (Mat mref = mainImage.CvtColor(mainImgColor))
+            using (Mat sref = subImg.CvtColor(subImgColor))
             {
                 Cv2.MatchTemplate(mref, sref, result, (TemplateMatchModes)match_method);
                 Cv2.Threshold(result, result, threshold, 1.0, ThresholdTypes.Tozero);
@@ -27,9 +28,11 @@ namespace ScriptImage
 
         //MatchTemplate in range
         public static ImgProcessRef MatchTemplateInRange(Mat mainImage, string subImage, (int x, int y) Start, (int x, int y) End,
-            double threshold = 0.50, int match_method = 5)
+            double threshold = 0.50, int match_method = 5,
+            ColorConversionCodes mainImgColor = ColorConversionCodes.BGR2GRAY,
+            ColorConversionCodes subImgColor = ColorConversionCodes.BGR2GRAY)
         {
-            //chick if start and end are in range
+            //Check if start and end are in range
             if (Start.x < 0 || Start.y < 0 || End.x > mainImage.Width || End.y > mainImage.Height)
             {
                 throw new Exception("Start or End are out of range");
@@ -37,8 +40,8 @@ namespace ScriptImage
 
             Mat subImg = new Mat(subImage);
             Mat result = new Mat();
-            using (Mat mref = mainImage.CvtColor(ColorConversionCodes.BGR2GRAY))
-            using (Mat sref = subImg.CvtColor(ColorConversionCodes.BGR2GRAY))
+            using (Mat mref = mainImage.CvtColor(mainImgColor))
+            using (Mat sref = subImg.CvtColor(subImgColor))
             {
                 //Set range
                 using (var range = mref[RangeCalculator(Start, End)])
@@ -90,7 +93,7 @@ namespace ScriptImage
 
             if (maxval >= threshold)
             {
-                Rect rec = new Rect(new Point(maxloc.X  , maxloc.Y ), new Size(subImage.Width, subImage.Height));
+                Rect rec = new Rect(new Point(maxloc.X, maxloc.Y), new Size(subImage.Width, subImage.Height));
                 Cv2.Rectangle(mainImage, rec, Scalar.LimeGreen, 2);
             }
         }
