@@ -14,8 +14,8 @@
 	  <PackAsTool>False</PackAsTool>
 	  <Authors>yousef</Authors>
 
-	  <!--This form is for testing the package and if you what to release, return it to its original form Like 1.0.1 -->
-	  <Version>1.0.1-$(Configuration)-$(Platform)-$([System.DateTime]::UtcNow.ToString(yyyyMMdd-HHmmss))</Version>
+	  <!--This form is for testing the package and if you what to release, return it to its original form Like 1.0.1.1 -->
+	  <Version>1.0.1.1</Version>
 
   </PropertyGroup>
 	<!--Conditionally obtain references for the .NET 5.0 target-->
