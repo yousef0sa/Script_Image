@@ -18,6 +18,22 @@ public class DllHolder
     private protected static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i);
     private protected delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter);
 
+    [DllImport("user32")]
+    private protected static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private protected static extern bool IsIconic(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private protected static extern bool IsZoomed(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private protected static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+
     #endregion
 
     #region Dll WindowCapture
@@ -78,6 +94,10 @@ public class DllHolder
 
     [DllImport("user32.dll")]
     private protected static extern bool ScreenToClient(IntPtr hWnd, ref OpenCvSharp.Point lpPoint);
+
+    [DllImport("user32.dll")]
+    private protected static extern bool GetAsyncKeyState(Keys VirtualKeyPressed);
+
     #endregion
 
 }
