@@ -1,4 +1,3 @@
-
 # What is Script Image.
 It's a library that saves time and writes a few lines to build custom scripts for an active window on your computer.
 
@@ -28,4 +27,3 @@ The library relies mainly on computer vision to receive and send information,
 ## Support
 
 If you have a suggestion or encountered an issue, we can help you from [here.](https://github.com/yousef0sa/Script_Image/issues/new)
-
